@@ -19,3 +19,5 @@
  9-firstdirdeletion: delete directory
  
  10-BACK : back to the previous working directoy.
+
+ 11-lists: list contentof many folders at once.
