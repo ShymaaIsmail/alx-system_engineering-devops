@@ -14,5 +14,7 @@
 
  7-movethatfile: Move the file betty from /tmp/ to /tmp/my_first_directory.
 
- 8-firstdelete: delete betty file
+ 8-firstdelete: delete betty file.
+
+ 9-firstdirdeletion: delete directory
    
