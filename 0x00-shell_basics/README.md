@@ -17,4 +17,5 @@
  8-firstdelete: delete betty file.
 
  9-firstdirdeletion: delete directory
-   
+ 
+ 10-BACK : back to the previous working directoy.
