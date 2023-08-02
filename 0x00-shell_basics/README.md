@@ -21,3 +21,5 @@
  10-BACK : back to the previous working directoy.
 
  11-lists: list contentof many folders at once.
+
+ 12-file_type:  check file type
