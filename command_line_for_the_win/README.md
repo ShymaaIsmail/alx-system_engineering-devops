@@ -1,8 +1,8 @@
-command_line_for_the_win
+## command_line_for_the_win
 
-How did i complete this project?
+## How did i complete this project?
 
-STEPS:
+**STEPS:**
 
 1. OPEN  the cmd challenge sit and completed the 27 quiz with taking 3 screen shots for every 9 done quizzes.
 2. Transfer the screen shots from local windows folder to wsl
@@ -12,7 +12,7 @@ STEPS:
 6. Cloned the github repo and put the files in the repo folder
 7. Pushed the files to the github remote server
 
-Screen Shots:
+**Screen Shots:**
 
 1. Tasks screenshots with the required names
 3. Sftp-local-files.png
