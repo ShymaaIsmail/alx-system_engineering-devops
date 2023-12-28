@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# This script displays To infinity and beyond indefinitely without termintation
+no_termination(){
+    echo "I am invincible!!!"
+}
+trap no_termination SIGTERM
+while :
+    do
+        echo "To infinity and beyond"
+        sleep 2
+    done
