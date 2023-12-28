@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#deamons or background processes are controlled by init scripts
+# shellcheck disable=SC2046
+start(){
+    ./manage_my_process & echo $! > /var/run/my_process.pid
+}
+stop(){
+    kill $(cat "/var/run/my_process.pid")
+    rm  /var/run/my_process.pid
+}
+if [ "$1" == "start" ]; then
+    start
+    echo "manage_my_process started"
+elif  [ "$1" == "stop" ]; then
+    stop
+    echo "manage_my_process stopped"
+elif [ "$1" == "restart" ]; then
+    stop
+    start
+    echo "manage_my_process restarted"
+else
+    echo "Usage: manage_my_process {start|stop|restart}"
+fi
