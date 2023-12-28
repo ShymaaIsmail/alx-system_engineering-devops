@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# This script shows your pid for those processes contain bash keyword
+pgrep bash -l
