@@ -2,7 +2,7 @@
 # No Love No Pain Script
 touch /var/run/myscript.pid
 no_termination(){
-    if [[ "$1" == "SIGTERM" ]]; then
+    if [ "$1" == "SIGTERM" ]; then
         echo "I hate the kill command"
     fi
     rm /var/run/myscript.pid
@@ -11,7 +11,9 @@ no_termination(){
 no_int(){
     echo "Y U no love me?!"
 }
-trap 'no_termination "$REPLY"' SIGTERM SIGQUIT
+
+trap 'no_termination SIGTERM' SIGTERM
+trap 'no_termination SIGQUIT' SIGQUIT
 trap no_int SIGINT
 while :
     do
