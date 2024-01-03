@@ -2,12 +2,14 @@
 # This script change the ip of localhost and facebook records
 ips=("127.0.0.2" "8.8.8.8")
 host_names=("localhost" "facebook.com")
+cp /etc/hosts ~/hosts.new
 for index in "${!ips[@]}"; do
     ip="${ips[$index]}"
     host_name="${host_names[$index]}"
-    if grep -q "$host_name" /etc/hosts; then
-        sed -i "s/.*$host_name/$ip $host_name/" /etc/hosts
+    if grep -q "$host_name" ~/hosts.new; then
+        sed -i "s/.*$host_name/$ip $host_name/" ~/hosts.new
     else
-        echo "$ip $host_name" >> /etc/hosts
-fi
+        echo "$ip $host_name" >> ~/hosts.new 
+    fi
 done
+cp -f ~/hosts.new /etc/hosts
