@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# This scripts acts as paramterized ping
+ip=$1
+if [ -z "$ip" ]; then
+    echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
+else
+    ping $ip -c 5
+fi
