@@ -1,5 +1,5 @@
 # configure some ssh options using puppet
-class { 'ssh::server':
+class { 'ssh::client':
   options           => {
     'IdentityFile'             => '~/.ssh/school',
     'PasswordAuthentication'   =>  'no'
