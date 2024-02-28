@@ -1,4 +1,4 @@
-# configure some ssh options using puppet
+# mix puppet with ssh cnfig
 file_line { 'Turn off passwd auth':
   path   => '/etc/ssh/sshd_config',
   line   => 'PasswordAuthentication no',
