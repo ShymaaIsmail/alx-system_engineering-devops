@@ -4,7 +4,7 @@ sudo apt-get -y update
 sudo apt-get install -y nginx
 sudo ufw enable
 sudo ufw allow 'Nginx HTTP'
-echo "Hello World!" > "/var/www/html/index.html"
+sudo echo "Hello World!" > "/var/www/html/index.html"
 RedirectConfig="server {
         listen 80 default_server;
         listen [::]:80 default_server;

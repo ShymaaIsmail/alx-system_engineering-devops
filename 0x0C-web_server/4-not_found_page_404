@@ -5,7 +5,7 @@ sudo apt-get install -y nginx
 sudo ufw enable
 sudo ufw allow 'Nginx HTTP'
 echo "Hello World!" > "/var/www/html/index.html"
-echo "Ceci n'est pas une page" > "/var/www/html/404.html"
+sudo echo "Ceci n'est pas une page" > "/var/www/html/404.html"
 RedirectConfig="server {
         listen 80 default_server;
         listen [::]:80 default_server;
@@ -19,7 +19,7 @@ RedirectConfig="server {
                 rewrite ^/redirect_me/?$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
         }
         location = /404.html {
-                root /var/www/html;
+            internal;
         }
 }"
 echo "$RedirectConfig" > "/etc/nginx/sites-available/default"
