@@ -1,67 +1,56 @@
-# install nginx web server using puppet
-# Define package and service for nginx
+# Install Nginx package
 package { 'nginx':
   ensure => installed,
 }
 
+# Ensure Nginx service is running and enabled
 service { 'nginx':
-  ensure  => running,
+  ensure  => 'running',
   enable  => true,
   require => Package['nginx'],
 }
 
-# Enable and allow Nginx HTTP in UFW
-class { 'ufw':
-  before => Class['nginx'],
-}
-
-ufw::allow { 'Nginx HTTP':
-  port   => 80,
-  proto  => 'tcp',
-  before => Service['nginx'],
-}
-
-# Create index.html and 404.html
-file { '/var/www/html/index.html':
-  content => 'Hello World!',
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',
-}
-
-file { '/var/www/html/404.html':
-  content => "Ceci n'est pas une page",
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',
-}
-
-# Configure Nginx
+# Nginx configuration file
 file { '/etc/nginx/sites-available/default':
-  content => "server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+  ensure  => file,
+  content => "
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    location /redirect_me {
+        return 301 http://example.com/;
+    }
+
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
         root /var/www/html;
-        index index.html;
-        server_name _;
-        # Custom error pages
-        error_page 404 /404.html;
-        location / {
-                try_files \$uri \$uri/ =404;
-                rewrite ^/redirect_me/?$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
-        }
-        location = /404.html {
-            internal;
-        }
-}",
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',
+    }
+}
+",
+  notify  => Service['nginx'],
 }
 
-# Restart Nginx service
-service { 'nginx':
-  ensure  => running,
-  enable  => true,
-  require => File['/etc/nginx/sites-available/default'],
+# Create index.html
+file { '/var/www/html/index.html':
+  ensure  => file,
+  content => 'Hello World!',
+  require => Package['nginx'],
+}
+
+# Restart Nginx when configuration changes
+exec { 'nginx-reload':
+  command     => '/usr/sbin/service nginx reload',
+  refreshonly => true,
+  subscribe   => File['/etc/nginx/sites-available/default'],
 }
