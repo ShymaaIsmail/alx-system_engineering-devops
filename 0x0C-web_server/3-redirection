@@ -4,17 +4,16 @@ sudo apt-get -y update
 sudo apt-get install -y nginx
 sudo ufw enable
 sudo ufw allow 'Nginx HTTP'
-sudo echo "Hello World!" > "/var/www/html/index.html"
-RedirectConfig='server {
+echo "Hello World!" > "/var/www/html/index.html"
+RedirectConfig="server {
         listen 80 default_server;
         listen [::]:80 default_server;
         root /var/www/html;
         index index.html;
         server_name _;
         location / {
-                try_files $uri $uri/ =404;
                 rewrite ^/redirect_me/?$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
         }
-}'
-echo $RedirectConfig > "/etc/nginx/sites-available/default"
+}"
+echo "$RedirectConfig" > "/etc/nginx/sites-available/default"
 sudo service nginx restart
