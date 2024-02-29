@@ -1,2 +1,2 @@
 #!/bin/bash
-curl ARGV[0]
+curl $ARGV[0]
