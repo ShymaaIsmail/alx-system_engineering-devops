@@ -1,2 +1,2 @@
 #!/bin/bash
-curl $0
+curl  -s  -w "%{size_header}\n" -o "/dev/null" "$1"
