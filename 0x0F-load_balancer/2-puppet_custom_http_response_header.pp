@@ -1,4 +1,5 @@
 # puupet custom http response header
+# puupet custom http response header
 # Install Nginx package
 package { 'nginx':
   ensure => installed,
@@ -25,7 +26,7 @@ server {
     server_name _;
 
     location / {
-        add_header  X-Served-By <%= @hostname %>;
+        add_header  X-Served-By ${hostname};
         try_files \$uri \$uri/ =404;
     }
 
