@@ -26,7 +26,7 @@ server {
     server_name _;
 
     location / {
-        add_header  X-Served-By $HOSTNAME;
+        add_header  X-Served-By \$HOSTNAME;
         try_files \$uri \$uri/ =404;
     }
 
