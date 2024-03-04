@@ -10,5 +10,6 @@ frontend http_front
 
 backend http_back
     balance roundrobin
+    option http-server-close
     server 512646-web-01 52.3.245.179:80 check
     server 512646-web-02 54.160.107.3:80 check" >> "/etc/haproxy/haproxy.cfg"
