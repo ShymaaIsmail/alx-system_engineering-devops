@@ -17,6 +17,7 @@ file { '/etc/nginx/sites-available/default':
   content => "
 server {
     listen 80 default_server;
+    add_header  X-Served-By $(hostname);
     listen [::]:80 default_server;
 
     root /var/www/html;
