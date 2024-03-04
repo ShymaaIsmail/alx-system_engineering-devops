@@ -29,7 +29,7 @@ server {
     server_name _;
 
     location / {
-        add_header  X-Served-By $nginx_hostname;
+        add_header  X-Served-By ${nginx_hostname};
         try_files \$uri \$uri/ =404;
     }
 
