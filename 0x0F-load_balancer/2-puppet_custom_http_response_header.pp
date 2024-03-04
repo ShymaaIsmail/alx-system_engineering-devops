@@ -1,3 +1,5 @@
+# puupet custom http response header
+# puupet custom http response header
 # Install Nginx package
 package { 'nginx':
   ensure => installed,
@@ -10,19 +12,35 @@ service { 'nginx':
   require => Package['nginx'],
 }
 
-# Execute hostname command to get the hostname
-exec { 'get_hostname':
-  command     => '/bin/hostname',
-  logoutput   => true,
-  refreshonly => true,
-  unless      => "/bin/grep -q '^X-Served-By' /etc/nginx/sites-available/default",
-  notify      => File['/etc/nginx/sites-available/default'],
-}
-
 # Nginx configuration file
 file { '/etc/nginx/sites-available/default':
   ensure  => file,
-  content => template('nginx/default.conf.erb'),
+  content => "
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        add_header  X-Served-By $HOSTNAME;
+        try_files \$uri \$uri/ =404;
+    }
+
+    location /redirect_me {
+        return 301 http://example.com/;
+    }
+
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /var/www/html;
+    }
+}
+",
   notify  => Service['nginx'],
 }
 
