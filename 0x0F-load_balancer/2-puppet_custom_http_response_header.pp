@@ -1,6 +1,9 @@
 # puupet custom http response header
 # puupet custom http response header
 # Install Nginx package
+Facter.add('nginx_hostname') do
+  setcode 'hostname'
+end
 package { 'nginx':
   ensure => installed,
 }
@@ -26,7 +29,7 @@ server {
     server_name _;
 
     location / {
-        add_header  X-Served-By ${hostname};
+        add_header  X-Served-By $nginx_hostname;
         try_files \$uri \$uri/ =404;
     }
 
