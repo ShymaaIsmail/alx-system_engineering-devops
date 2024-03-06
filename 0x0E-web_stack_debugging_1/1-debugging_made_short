@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # Make it sweet and short
 service nginx stop
-docker run --name "docker-nginx-$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1)" -p 80:80 nginx
+docker run --name docker-nginx -p 80:80 nginx
