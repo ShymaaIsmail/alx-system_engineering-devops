@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Configure your domain zone so that the subdomain www
+# shellcheck disable=SC2086
+# shellcheck disable=SC2162
+domain="$1"
+subdomain="$2"
+extract_dns_info() {
+    if [ -n "$3" ]; then
+        awk -v subdomain="$1" -v record_type="$2" -v ip_address="$3" 'BEGIN {printf "The subdomain %s is a %s record and points to %s\n", subdomain, record_type, ip_address}'
+    fi
+}
+if [ ${#subdomain} -eq 0 ]; then
+    dig "www.$domain" | grep -A1 'ANSWER SECTION:' | awk '{print $4, $5}' | while read record_type ip_address; do extract_dns_info "www" "$record_type" "$ip_address"; done
+    dig "lb-01.$domain" | grep -A1 'ANSWER SECTION:' | awk '{print $4, $5}' | while read record_type ip_address; do extract_dns_info "lb-01" "$record_type" "$ip_address"; done
+    dig "web-01.$domain" | grep -A1 'ANSWER SECTION:'| awk '{print $4, $5}' | while read record_type ip_address; do extract_dns_info "web-01" "$record_type" "$ip_address"; done
+    dig "web-02.$domain" | grep -A1 'ANSWER SECTION:' | awk '{print $4, $5}' | while read record_type ip_address; do extract_dns_info "web-02" "$record_type" "$ip_address"; done
+else
+    dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | awk '{print $4, $5}' | while read record_type ip_address; do extract_dns_info "$subdomain" "$record_type" "$ip_address"; done
+fi
+
+
+
+
