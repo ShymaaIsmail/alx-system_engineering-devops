@@ -1,3 +1,25 @@
 #!/usr/bin/env bash
 #run nginx as nginx
+#!/bin/bash
+# Step 1: Modify nginx.conf to set the user as nginx
+sudo adduser nginx
+sed -i 's/user\s*[^;]*;/user nginx;/' /etc/nginx/nginx.conf
 
+# Step 2: Modify the default site configuration to listen on port 8080 for all active IPs
+cat >/etc/nginx/sites-available/default <<EOF
+server {
+    listen 8080 default_server;
+    listen [::]:8080 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOF
+# Step 3: Restart Nginx to apply the changes
+service nginx restart
