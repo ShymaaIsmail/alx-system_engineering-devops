@@ -26,7 +26,6 @@ def get_all_tasks_for_all_users():
 
         with open("todo_all_employees.json", "w") as json_file:
             json.dump(json_data, json_file, indent=4)
-        print(f"Data exported to todo_all_employees.json successfully.")
     else:
         print(f"Failed to retrieve data")
 
