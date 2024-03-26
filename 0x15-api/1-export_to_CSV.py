@@ -16,19 +16,15 @@ def get_employee_todo_progress(employee_id):
         user = user_details.json()
         employee_name = user['username']
         done_tasks = [(todo['title'], todo['completed']) for todo in todos]
-        total_tasks = len(todos)
-        number_of_done_tasks = sum(1 for task, completed in
-                                   done_tasks if completed)
         # Exporting to CSV
         csv_file_name = f"{employee_id}.csv"
         with open(csv_file_name, 'w', newline='') as csvfile:
-            writer = csv.writer(csvfile)
+            writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
             for task, completed in done_tasks:
                 writer.writerow([str(employee_id),
                                 str(employee_name),
                                 str("True" if completed else "False"),
                                 str(task)])
-
         print(f"Data exported to {csv_file_name}")
     else:
         print(f"Failed to retrieve data for employee {employee_id}.")
