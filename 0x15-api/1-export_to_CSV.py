@@ -14,7 +14,7 @@ def get_employee_todo_progress(employee_id):
     if response.status_code == 200 and user_details.status_code == 200:
         todos = response.json()
         user = user_details.json()
-        employee_name = user['name']
+        employee_name = user['username']
         done_tasks = [(todo['title'], todo['completed']) for todo in todos]
         total_tasks = len(todos)
         number_of_done_tasks = sum(1 for task, completed in
