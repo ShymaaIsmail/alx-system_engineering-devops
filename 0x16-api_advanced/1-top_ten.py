@@ -2,14 +2,11 @@
 """
 1-hot
 """
-
-
 import requests
 
 
 def top_ten(subreddit):
     """top hot ten"""
-
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {'User-Agent': 'Mozilla/5.0'}
     params = {'limit': 10}
