@@ -10,7 +10,8 @@ def number_of_subscribers(subreddit):
     """number of subscribers"""
     try:
         url = "https://www.reddit.com/r/{0}/about.json".format(subreddit)
-        headers = {'User-Agent': 'by u/ShymaaIsmail'}
+        headers = {'User-Agent':
+                   'linux:0x16.api.advanced:v1.0.0 (by /u/ShymaaIsmail)'}
         response = requests.get(url, headers=headers, allow_redirects=False)
         if response.status_code == 200:
             data = json.loads(response.content.decode('utf-8'))
