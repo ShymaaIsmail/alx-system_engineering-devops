@@ -17,6 +17,7 @@ def number_of_subscribers(subreddit):
         if response.status_code == 200:
             data = json.loads(response.content.decode('utf-8'))
             return data['data']['subscribers']
+        else:
+            return 0
     except requests.exceptions.RequestException as e:
-        print(e)
         return 0
