@@ -5,16 +5,18 @@
 
 import requests
 
+
 def count_words(subreddit, word_list, hot_list=[], after=None, count_dict={}):
     """
-    Recursively retrieve hot posts from a subreddit and count occurrences of given keywords.
+    Recursively retrieve hot posts from a subreddit and count occurrences
+    of given keywords.
 
     Args:
         subreddit (str): The name of the subreddit.
-        word_list (list): List of keywords to count occurrences of.
-        hot_list (list, optional): List to store hot post titles. Defaults to [].
-        after (str, optional): Identifier for the next page of results. Defaults to None.
-        count_dict (dict, optional): Dictionary to store keyword counts. Defaults to {}.
+        word_list (list): List of keywords to count occurs of.
+        hot_list (list): List to store hot post titles.
+        after (str): Identifier for the next page of results.
+        count_dict (dict): Dictionary to store keyword counts
 
     Returns:
         dict: Dictionary containing keyword counts.
@@ -23,7 +25,7 @@ def count_words(subreddit, word_list, hot_list=[], after=None, count_dict={}):
     headers = {'User-Agent': 'Custom User Agent'}
     params = {'limit': 100, 'after': after}
     response = requests.get(url, headers=headers, params=params)
-    
+
     if response.status_code == 200:
         data = response.json()
         posts = data['data']['children']
@@ -31,13 +33,17 @@ def count_words(subreddit, word_list, hot_list=[], after=None, count_dict={}):
             hot_list.append(post['data']['title'])
         after = data['data']['after']
         if after:
-            return count_words(subreddit, word_list, hot_list, after, count_dict)
+            return count_words(subreddit, word_list, hot_list,
+                               after, count_dict)
         else:
             for title in hot_list:
                 for word in word_list:
                     if title.lower().count(word.lower()) > 0:
-                        count_dict[word.lower()] = count_dict.get(word.lower(), 0) + title.lower().count(word.lower())
-            sorted_counts = sorted(count_dict.items(), key=lambda x: (-x[1], x[0]))
+                        count_dict[word.lower()] = count_dict.get(
+                            word.lower(), 0) + \
+                            title.lower().count(word.lower())
+            sorted_counts = sorted(count_dict.items(),
+                                   key=lambda x: (-x[1], x[0]))
             for word, count in sorted_counts:
                 print(f"{word}: {count}")
             return count_dict
