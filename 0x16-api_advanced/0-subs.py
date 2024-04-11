@@ -2,8 +2,8 @@
 """
 0-subs
 """
-import requests
 
+import requests
 
 def number_of_subscribers(subreddit):
     """number of subscribers"""
