@@ -1,18 +1,13 @@
-#update limits of holberton user
-# Define the ULIMIT value
-$ulimit_value = '100000'
-# Append Define soft and hard limit for holberton user
-$file_content = "
-# Define soft and hard limit for holberton user
-holberton hard nofile 000
-holberton soft nofile 00
-"
+# Increase hard and soft limits for holberton user
 
-# Ensure the file /etc/security/limits.conf exists and has specific content
-file { '/etc/security/limits.conf':
-  ensure  => file,
-  content => $file_content,
-  owner   => 'root',
-  group   => 'root',
-  mode    => '0644',
+# Increase hard file limit for Holberton user.
+exec { 'increase-hard-file-limit-for-holberton-user':
+  command => 'sed -i "/holberton hard/s/5/100000/" /etc/security/limits.conf',
+  path    => '/usr/local/bin/:/bin/'
+}
+
+# Increase soft file limit for Holberton user.
+exec { 'increase-soft-file-limit-for-holberton-user':
+  command => 'sed -i "/holberton soft/s/4/10000/" /etc/security/limits.conf',
+  path    => '/usr/local/bin/:/bin/'
 }
