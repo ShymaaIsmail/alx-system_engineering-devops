@@ -15,3 +15,7 @@ file { '/etc/default/nginx':
   group   => 'root',
   mode    => '0644',
 }
+# Restart Nginx when configuration changes
+exec { 'nginx-reload':
+  command     => '/usr/sbin/service nginx reload'
+  }
