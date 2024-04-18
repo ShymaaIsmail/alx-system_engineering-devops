@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 #Reload Gunicorn gracefully
 #shellcheck disable=SC2009
-systemctl status gunicorn | grep -oE 'Main PID: [0-9]+' | cut -d ' ' -f3 | xargs kill -HUP
-
+pgrep -x "gunicorn" | xargs kill -HUP 2>/dev/null || echo "No Gunicorn processes found."
