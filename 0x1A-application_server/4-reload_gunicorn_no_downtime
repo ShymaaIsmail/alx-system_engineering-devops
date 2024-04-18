@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
-#Reload Gunicorn gracefully
-#shellcheck disable=SC2009
-ps aux | grep gunicorn | awk '{ print $2 }' | xargs kill -HUP
+# Reload Gunicorn gracefully
+
+# Check if Gunicorn processes are running
+if ! pgrep -x "gunicorn" > /dev/null; then
+    echo "No Gunicorn processes found."
+    exit 1
+fi
+
+# Find the Gunicorn process IDs and send HUP signal for graceful reload
+if ! pgrep -x "gunicorn" | xargs kill -HUP; then
+    echo "Failed to reload Gunicorn."
+    exit 1
+fi
+
+echo "Gunicorn reloaded gracefully."
