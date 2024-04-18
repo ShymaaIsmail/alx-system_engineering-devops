@@ -1,9 +1,11 @@
-#update limit of etc default nginx 
-exec { 'update-limit-of-etc-default-nginx ':
+# puppet manifest to change the limit of file descriptor
+
+exec { 'fix--for-nginx':
   command => 'sed -i "s/15/4096/" /etc/default/nginx',
-  path    => '/usr/local/bin/:/bin/'
+  path    => '/usr/local/bin/:/bin/',
 }
-# Restart Nginx when configuration changes
-exec { 'nginx-reload':
-  command     => '/usr/sbin/service nginx reload'
-  }
+
+-> exec { 'restart-nginx':
+  command => 'nginx restart',
+  path    => '/etc/init.d/',
+}
